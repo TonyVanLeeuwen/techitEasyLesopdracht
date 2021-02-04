@@ -162,10 +162,28 @@ const inventory = [
     },
 ];
 
+
+
 function calculateAmountToSell(array) {
     let stockToSell = 0;
     for (const inventoryKey in inventory) {
-        stockToSell += inventoryKey.originalStock - inventoryKey.sold;
+        stockToSell += inventory[inventoryKey].originalStock - inventory[inventoryKey].sold;
     }
     return stockToSell;
 }
+
+
+
+/*
+x zorgen dat de koppeling tussen javascript en de html gemaakt is
+x het element selecteren waarin de te verkopen voorraad getoond kan worden
+x ervoor zorgen dat dit in het element getoond gaat worden
+x ervoor zorgen dat de te verkopen voorraad in het rood getoond wordt
+
+ */
+
+const sellingStock = document.getElementById("stocktosell");
+// let stockToString = "";
+// stockToString += calculateAmountToSell(inventory);
+sellingStock.textContent = "stock to sell: " + calculateAmountToSell(inventory);
+sellingStock.style.color = "red"
