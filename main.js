@@ -187,15 +187,6 @@ function calculateCurrentRevenue(inventoryArray) {
     return currentRevenue;
 }
 
-
-/*
-x zorgen dat de koppeling tussen javascript en de html gemaakt is
-x het element selecteren waarin de te verkopen voorraad getoond kan worden
-x ervoor zorgen dat dit in het element getoond gaat worden
-x ervoor zorgen dat de te verkopen voorraad in het rood getoond wordt
- */
-
-
 const revenueTarget = document.getElementById("revenueTarget");
 revenueTarget.textContent += calculateRevenueTarget(inventory);
 revenueTarget.style.color = "blue";
@@ -214,29 +205,51 @@ typeOfTVOne.textContent += inventory[1].type;
 const typeOfTVTwo = document.getElementById("typeOfTVTwo");
 typeOfTVTwo.textContent += inventory[2].type;
 
+function formatTVName (television){
+    return television.brand + " " + television.type + " - " +  television.name;
+}
+
+function recalculateScreenSizeToCM(sizeInInches) {
+    return (sizeInInches/0.39370).toFixed(0);
+}
+
+function formatTVSize(televisionSize){
+    let screenSizeString = ""
+    for (const televisionSizeKey in televisionSize) {
+        if (!(televisionSize[televisionSizeKey] === televisionSize[televisionSize.length-1])){
+            screenSizeString += televisionSize[televisionSizeKey] + " inches " + "(" + recalculateScreenSizeToCM(televisionSize[televisionSizeKey]) + " cm) | "
+        } else {
+            screenSizeString += televisionSize[televisionSizeKey] + " inches " + "(" + recalculateScreenSizeToCM(televisionSize[televisionSizeKey]) + " cm)"
+        }
+    }
+    return screenSizeString;
+}
+
+console.log(formatTVSize(inventory[2].availableSizes))
+
+function formatPrice (televisionPrice){ //formatteert de prijs volgens de ingebouwde format methode
+    return new Intl.NumberFormat('nl-NL', {
+       style: 'currency', currency: 'EUR'
+   }).format(televisionPrice);
+}
+
+console.log(formatPrice(inventory[1].price));
+console.log(formatTVName(inventory[1]));
+
 const typeInventoryArray = inventory.map((televisions) => {
     return televisions.type;
 });
-
-
-// console.log(typeInventoryArray);
 
 const soldOutArray = inventory.filter((televisions) => {
     return (televisions.originalStock - televisions.sold) === 0;
 });
 
-// console.log(soldOutArray);
-
 const hasAmbilightArray = inventory.filter(televisions => {
     return televisions.options.ambiLight;
 });
-
-// console.log(hasAmbilightArray);
 
 const leastExpensiveToMostExpensiveArray = inventory.sort((televisona, televisionb) => {
 
         return televisona.price - televisionb.price;
     }
 );
-
-// console.log(leastExpensiveToMostExpensiveArray)
