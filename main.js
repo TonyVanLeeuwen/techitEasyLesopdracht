@@ -205,6 +205,9 @@ typeOfTVOne.textContent += inventory[1].type;
 const typeOfTVTwo = document.getElementById("typeOfTVTwo");
 typeOfTVTwo.textContent += inventory[2].type;
 
+const tvFormatted = document.getElementById("tvFormatted");
+tvFormatted.textContent = formatTVName(inventory[1]) + formatPrice(inventory[1].price) + formatTVSize(inventory[1].availableSizes)
+
 function formatTVName (television){
     return television.brand + " " + television.type + " - " +  television.name;
 }
