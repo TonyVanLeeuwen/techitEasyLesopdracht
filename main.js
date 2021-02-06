@@ -163,13 +163,28 @@ const inventory = [
 ];
 
 
-
-function calculateAmountToSell(array) {
+function calculateAmountToSell(inventoryArray) {
     let stockToSell = 0;
     for (const inventoryKey in inventory) {
         stockToSell += inventory[inventoryKey].originalStock - inventory[inventoryKey].sold;
     }
     return stockToSell;
+}
+
+function calculateRevenueTarget(inventoryArray) {
+    let revenue = 0;
+    for (const inventoryKey in inventoryArray) {
+        revenue += (inventoryArray[inventoryKey].originalStock - inventoryArray[inventoryKey].sold) * inventoryArray[inventoryKey].price;
+    }
+    return revenue;
+}
+
+function calculateCurrentRevenue(inventoryArray) {
+    let currentRevenue = 0;
+    for (const inventoryKey in inventoryArray) {
+        currentRevenue += inventoryArray[inventoryKey].sold * inventoryArray[inventoryKey].price;
+    }
+    return currentRevenue;
 }
 
 
@@ -182,8 +197,43 @@ x ervoor zorgen dat de te verkopen voorraad in het rood getoond wordt
 
  */
 
-const sellingStock = document.getElementById("stocktosell");
-// let stockToString = "";
-// stockToString += calculateAmountToSell(inventory);
-sellingStock.textContent = "stock to sell: " + calculateAmountToSell(inventory);
-sellingStock.style.color = "red"
+
+
+
+const revenueTarget = document.getElementById("revenueTarget");
+revenueTarget.textContent += calculateRevenueTarget(inventory);
+revenueTarget.style.color = "blue";
+
+const sellingStock = document.getElementById("stockToSell");
+sellingStock.textContent += calculateAmountToSell(inventory);
+sellingStock.style.color = "red";
+
+const currentRevenue = document.getElementById("currentRevenue");
+currentRevenue.textContent += calculateCurrentRevenue(inventory);
+currentRevenue.style.color = "green";
+
+const typeInventoryArray = inventory.map((televisions) => {
+    return televisions.type;
+});
+
+// console.log(typeInventoryArray);
+
+const soldOutArray = inventory.filter((televisions) => {
+    return (televisions.originalStock - televisions.sold) === 0;
+});
+
+// console.log(soldOutArray);
+
+const hasAmbilightArray = inventory.filter(televisions => {
+    return televisions.options.ambiLight;
+});
+
+// console.log(hasAmbilightArray);
+
+const leastExpensiveToMostExpensiveArray = inventory.sort((televisona, televisionb) => {
+
+        return televisona.price - televisionb.price;
+    }
+);
+
+// console.log(leastExpensiveToMostExpensiveArray)
