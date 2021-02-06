@@ -188,16 +188,12 @@ function calculateCurrentRevenue(inventoryArray) {
 }
 
 
-
 /*
 x zorgen dat de koppeling tussen javascript en de html gemaakt is
 x het element selecteren waarin de te verkopen voorraad getoond kan worden
 x ervoor zorgen dat dit in het element getoond gaat worden
 x ervoor zorgen dat de te verkopen voorraad in het rood getoond wordt
-
  */
-
-
 
 
 const revenueTarget = document.getElementById("revenueTarget");
@@ -212,9 +208,16 @@ const currentRevenue = document.getElementById("currentRevenue");
 currentRevenue.textContent += calculateCurrentRevenue(inventory);
 currentRevenue.style.color = "green";
 
+const typeOfTVOne = document.getElementById("typeOfTVOne");
+typeOfTVOne.textContent += inventory[1].type;
+
+const typeOfTVTwo = document.getElementById("typeOfTVTwo");
+typeOfTVTwo.textContent += inventory[2].type;
+
 const typeInventoryArray = inventory.map((televisions) => {
     return televisions.type;
 });
+
 
 // console.log(typeInventoryArray);
 
