@@ -1,3 +1,19 @@
+* {
+    background-color: aqua;
+}
+
 #stocktoSell{
     color: red;
+}
+
+#revenueContainer {
+    background-color: limegreen;
+    display : flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+#revenueContainer>p {
+    flex-grow: 1;
 }

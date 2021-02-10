@@ -205,35 +205,59 @@ typeOfTVOne.textContent += inventory[1].type;
 const typeOfTVTwo = document.getElementById("typeOfTVTwo");
 typeOfTVTwo.textContent += inventory[2].type;
 
-const tvFormatted = document.getElementById("tvFormatted");
-tvFormatted.textContent = formatTVName(inventory[1]) + formatPrice(inventory[1].price) + formatTVSize(inventory[1].availableSizes)
+const revenueContainer = document.getElementById("revenueContainer");
 
-function formatTVName (television){
-    return television.brand + " " + television.type + " - " +  television.name;
+const tvFormatted = document.createElement("p");
+tvFormatted.setAttribute("Id", "tvFormatted");
+tvFormatted.setAttribute('style', 'white-space: pre;');
+tvFormatted.textContent = formatTVName(inventory[1]) + " \n" +
+    formatPrice(inventory[1].price) + " \n" +
+    formatTVSize(inventory[1].availableSizes);
+revenueContainer.appendChild(tvFormatted);
+
+// functie schrijven waarin alle functies worden meegenomen
+// ervoor zorgen dat deze functie ook voor andere elementen zou werken
+// deze functie vervolgens aanroepen op het html element en
+// ervoor zorgen dat deze automatisch linebreaks toevoegt
+
+function formatInventoryArray(inventory){
+    for (let i = 0; inventory.length; i++){
+        const tvFormatted = document.createElement("p");
+        tvFormatted.setAttribute("Id", "tvFormatted" + i);
+        tvFormatted.setAttribute('style', 'white-space: pre;');
+        tvFormatted.textContent = formatTVName(inventory[i]) + " \n" +
+            formatPrice(inventory[i].price) + " \n" +
+            formatTVSize(inventory[i].availableSizes);
+        revenueContainer.appendChild(tvFormatted);
+    }
+}
+
+formatInventoryArray(inventory);
+
+function formatTVName(television) {
+    return television.brand + " " + television.type + " - " + television.name + " \r";
 }
 
 function recalculateScreenSizeToCM(sizeInInches) {
-    return (sizeInInches/0.39370).toFixed(0);
+    return (sizeInInches / 0.39370).toFixed(0);
 }
 
-function formatTVSize(televisionSize){
-    let screenSizeString = ""
+function formatTVSize(televisionSize) {
+    let screenSizeString = "";
     for (const televisionSizeKey in televisionSize) {
-        if (!(televisionSize[televisionSizeKey] === televisionSize[televisionSize.length-1])){
-            screenSizeString += televisionSize[televisionSizeKey] + " inches " + "(" + recalculateScreenSizeToCM(televisionSize[televisionSizeKey]) + " cm) | "
+        if (!(televisionSize[televisionSizeKey] === televisionSize[televisionSize.length - 1])) {
+            screenSizeString += televisionSize[televisionSizeKey] + " inches " + "(" + recalculateScreenSizeToCM(televisionSize[televisionSizeKey]) + " cm) | ";
         } else {
-            screenSizeString += televisionSize[televisionSizeKey] + " inches " + "(" + recalculateScreenSizeToCM(televisionSize[televisionSizeKey]) + " cm)"
+            screenSizeString += televisionSize[televisionSizeKey] + " inches " + "(" + recalculateScreenSizeToCM(televisionSize[televisionSizeKey]) + " cm)";
         }
     }
     return screenSizeString;
 }
 
-console.log(formatTVSize(inventory[2].availableSizes))
-
-function formatPrice (televisionPrice){ //formatteert de prijs volgens de ingebouwde format methode
+function formatPrice(televisionPrice) { //formatteert de prijs volgens de ingebouwde format methode
     return new Intl.NumberFormat('nl-NL', {
-       style: 'currency', currency: 'EUR'
-   }).format(televisionPrice);
+        style: 'currency', currency: 'EUR'
+    }).format(televisionPrice);
 }
 
 console.log(formatPrice(inventory[1].price));
