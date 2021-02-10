@@ -162,10 +162,134 @@ const inventory = [
     },
 ];
 
-function calculateAmountToSell(array) {
+
+function calculateAmountToSell(inventoryArray) {
     let stockToSell = 0;
     for (const inventoryKey in inventory) {
-        stockToSell += inventoryKey.originalStock - inventoryKey.sold;
+        stockToSell += inventory[inventoryKey].originalStock - inventory[inventoryKey].sold;
     }
     return stockToSell;
 }
+
+function calculateRevenueTarget(inventoryArray) {
+    let revenue = 0;
+    for (const inventoryKey in inventoryArray) {
+        revenue += (inventoryArray[inventoryKey].originalStock - inventoryArray[inventoryKey].sold) * inventoryArray[inventoryKey].price;
+    }
+    return revenue;
+}
+
+function calculateCurrentRevenue(inventoryArray) {
+    let currentRevenue = 0;
+    for (const inventoryKey in inventoryArray) {
+        currentRevenue += inventoryArray[inventoryKey].sold * inventoryArray[inventoryKey].price;
+    }
+    return currentRevenue;
+}
+
+const revenueTarget = document.getElementById("revenueTarget");
+revenueTarget.textContent += calculateRevenueTarget(inventory);
+revenueTarget.style.color = "blue";
+
+const sellingStock = document.getElementById("stockToSell");
+sellingStock.textContent += calculateAmountToSell(inventory);
+sellingStock.style.color = "red";
+
+const currentRevenue = document.getElementById("currentRevenue");
+currentRevenue.textContent += calculateCurrentRevenue(inventory);
+currentRevenue.style.color = "green";
+
+const typeOfTVOne = document.getElementById("typeOfTVOne");
+typeOfTVOne.textContent += inventory[1].type;
+
+const typeOfTVTwo = document.getElementById("typeOfTVTwo");
+typeOfTVTwo.textContent += inventory[2].type;
+
+const revenueContainer = document.getElementById("revenueContainer");
+
+function formatInventoryArray(inventory) {
+    for (let i = 0; i < inventory.length; i++) {
+        const tvFormatted = document.createElement("p");
+        tvFormatted.setAttribute("Id", "tvFormatted" + i);
+        tvFormatted.setAttribute('style', 'white-space: pre;');
+        tvFormatted.textContent = formatTVName(inventory[i]) + " \n" +
+            formatPrice(inventory[i].price) + " \n" +
+            formatTVSize(inventory[i].availableSizes);
+        revenueContainer.appendChild(tvFormatted);
+    }
+}
+
+formatInventoryArray(inventory);
+
+function formatTVName(television) {
+    return television.brand + " " + television.type + " - " + television.name + " \r";
+}
+
+function recalculateScreenSizeToCM(sizeInInches) {
+    return (sizeInInches / 0.39370).toFixed(0);
+}
+
+function formatTVSize(televisionSize) {
+    let screenSizeString = "";
+    for (const televisionSizeKey in televisionSize) {
+        if (!(televisionSize[televisionSizeKey] === televisionSize[televisionSize.length - 1])) {
+            screenSizeString += televisionSize[televisionSizeKey] + " inches " + "(" + recalculateScreenSizeToCM(televisionSize[televisionSizeKey]) + " cm) | ";
+        } else {
+            screenSizeString += televisionSize[televisionSizeKey] + " inches " + "(" + recalculateScreenSizeToCM(televisionSize[televisionSizeKey]) + " cm)";
+        }
+    }
+    return screenSizeString;
+}
+
+function clearElements(inventory) {
+    for (let i = 0; i < inventory.length; i++) {
+        let child = document.getElementById("tvFormatted" + i);
+        revenueContainer.removeChild(child);
+    }
+}
+
+let priceSort = document.getElementById("priceSort")
+priceSort.addEventListener("click", function sortByPrice() {
+    clearElements(inventory);
+    formatInventoryArray(leastExpensiveToMostExpensiveArray);
+});
+
+let ambilightSort = document.getElementById("ambilightSort")
+ambilightSort.addEventListener("click", function ambilightSort() {
+    clearElements(inventory);
+    formatInventoryArray(hasAmbilightArray);
+});
+
+let soldOutSort = document.getElementById("soldOutSort")
+soldOutSort.addEventListener("click", function soldOutSort() {
+    clearElements(inventory);
+    formatInventoryArray(soldOutArray);
+});
+
+
+
+function formatPrice(televisionPrice) { //formatteert de prijs volgens de ingebouwde format methode
+    return new Intl.NumberFormat('nl-NL', {
+        style: 'currency', currency: 'EUR'
+    }).format(televisionPrice);
+}
+
+console.log(formatPrice(inventory[1].price));
+console.log(formatTVName(inventory[1]));
+
+const typeInventoryArray = inventory.map((televisions) => {
+    return televisions.type;
+});
+
+const soldOutArray = inventory.filter((televisions) => {
+    return (televisions.originalStock - televisions.sold) === 0;
+});
+
+const hasAmbilightArray = inventory.filter(televisions => {
+    return televisions.options.ambiLight;
+});
+
+const leastExpensiveToMostExpensiveArray = inventory.sort((televisona, televisionb) => {
+        return televisona.price - televisionb.price;
+    }
+);
