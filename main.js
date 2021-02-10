@@ -207,19 +207,6 @@ typeOfTVTwo.textContent += inventory[2].type;
 
 const revenueContainer = document.getElementById("revenueContainer");
 
-// const tvFormatted = document.createElement("p");
-// tvFormatted.setAttribute("Id", "tvFormatted");
-// tvFormatted.setAttribute('style', 'white-space: pre;');
-// tvFormatted.textContent = formatTVName(inventory[1]) + " \n" +
-//     formatPrice(inventory[1].price) + " \n" +
-//     formatTVSize(inventory[1].availableSizes);
-// revenueContainer.appendChild(tvFormatted); Uitgecomment want anders dubbel op de pagina
-
-// functie schrijven waarin alle functies worden meegenomen
-// ervoor zorgen dat deze functie ook voor andere elementen zou werken
-// deze functie vervolgens aanroepen op het html element en
-// ervoor zorgen dat deze automatisch linebreaks toevoegt
-
 function formatInventoryArray(inventory) {
     for (let i = 0; i < inventory.length; i++) {
         const tvFormatted = document.createElement("p");
@@ -254,17 +241,12 @@ function formatTVSize(televisionSize) {
     return screenSizeString;
 }
 
-const sortPriceButton = document.getElementById("priceSort");
-
-
-
 function clearElements(inventory) {
     for (let i = 0; i < inventory.length; i++) {
         let child = document.getElementById("tvFormatted" + i);
         revenueContainer.removeChild(child);
     }
 }
-
 
 let priceSort = document.getElementById("priceSort")
 priceSort.addEventListener("click", function sortByPrice() {

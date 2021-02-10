@@ -1,5 +1,15 @@
-* {
-    background-color: aqua;
+
+.stockContainer{
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    align-content: space-evenly;
+}
+
+.stockContainer>p{
+    display: flex;
+    align-content: space-between;
+
 }
 
 #stocktoSell{
@@ -9,11 +19,20 @@
 #revenueContainer {
     background-color: limegreen;
     display : flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
+    justify-content: flex-start;
 }
 
-#revenueContainer>p {
+#revenueContainer > p {
+    display: flex;
     flex-grow: 1;
+    justify-content: flex-start;
+    background-color: orange;
+}
+
+button {
+    color: black;
+    background-color: white;
 }
